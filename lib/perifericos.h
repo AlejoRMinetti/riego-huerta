@@ -3,12 +3,12 @@
 
 // Relay para encendido de la valvula solenoide para el riego
 #define RELAY_PIN D1
-#define HORA_EN_SEGUNDOS 2
+#define HORA_EN_SEGUNDOS 3600
 
 Ticker tickerON, tickerOFF;
 
 float riego_segs = HORA_EN_SEGUNDOS / 2;
-float espera_segs = HORA_EN_SEGUNDOS * 2;
+float espera_segs = HORA_EN_SEGUNDOS * 12;
 
 void turn_off()
 {
