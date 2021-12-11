@@ -7,8 +7,10 @@
 
 Ticker tickerON, tickerOFF;
 
-float riego_segs = HORA_EN_SEGUNDOS / 2;
-float espera_segs = HORA_EN_SEGUNDOS * 12;
+// 10 min encendido
+float riego_segs = HORA_EN_SEGUNDOS / 6;
+// cada 3 horas
+float espera_segs = HORA_EN_SEGUNDOS * 3;
 
 void turn_off()
 {

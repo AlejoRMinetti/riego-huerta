@@ -3,33 +3,30 @@
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 
+#include <ESP8266WiFiMulti.h>
+ESP8266WiFiMulti wifiMulti;
+
 #include "credentials.h"
-/*
-#ifndef STASSID
-#define STASSID "your-ssid"
-#define STAPSK  "your-password"
+/* "credentials.h" only contains the SSID and password of the WiFi network.
+ * It is not included in the repository because it contains sensitive data.
+ * If you want to use this code, you need to create your own "credentials.h"
+ * file with your own SSID and password, copy and paste the contents of:
+
+#ifndef STASSID-1
+#define STASSID-1 "your-ssid-1"
+#define STAPSK-1  "your-password-1"
+#define STASSID-2 "your-ssid-2"
+#define STAPSK-2  "your-password-2"
 #endif
-*/
+ */
 
-const char* ssid = STASSID;
-const char* password = STAPSK;
-
-void OTA_setup() {
-  Serial.begin(115200);
-  Serial.println("Booting");
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
-  while (WiFi.waitForConnectResult() != WL_CONNECTED) {
-    Serial.println("Connection Failed! Rebooting...");
-    delay(5000);
-    ESP.restart();
-  }
+void OTA_setup()
+{
   // Hostname defaults to esp8266-[ChipID]
   ArduinoOTA.setHostname("Riego-Huerta-esp8266");
 
   // Port defaults to 8266
   // ArduinoOTA.setPort(8266);
-
 
   // No authentication by default
   // ArduinoOTA.setPassword("admin");
@@ -38,47 +35,86 @@ void OTA_setup() {
   // MD5(admin) = 21232f297a57a5a743894a0e4a801fc3
   // ArduinoOTA.setPasswordHash("21232f297a57a5a743894a0e4a801fc3");
 
-  ArduinoOTA.onStart([]() {
-    String type;
-    if (ArduinoOTA.getCommand() == U_FLASH) {
-      type = "sketch";
-    } else { // U_FS
-      type = "filesystem";
-    }
+  ArduinoOTA.onStart([]()
+                     {
+                       String type;
+                       if (ArduinoOTA.getCommand() == U_FLASH)
+                       {
+                         type = "sketch";
+                       }
+                       else
+                       { // U_FS
+                         type = "filesystem";
+                       }
 
-    // NOTE: if updating FS this would be the place to unmount FS using FS.end()
-    Serial.println("Start updating " + type);
-  });
-  ArduinoOTA.onEnd([]() {
-    Serial.println("\nEnd");
-  });
-  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
-    Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
-  });
-  ArduinoOTA.onError([](ota_error_t error) {
-    Serial.printf("Error[%u]: ", error);
-    if (error == OTA_AUTH_ERROR) {
-      Serial.println("Auth Failed");
-    } else if (error == OTA_BEGIN_ERROR) {
-      Serial.println("Begin Failed");
-    } else if (error == OTA_CONNECT_ERROR) {
-      Serial.println("Connect Failed");
-    } else if (error == OTA_RECEIVE_ERROR) {
-      Serial.println("Receive Failed");
-    } else if (error == OTA_END_ERROR) {
-      Serial.println("End Failed");
-    }
-  });
+                       // NOTE: if updating FS this would be the place to unmount FS using FS.end()
+                       Serial.println("Start updating " + type);
+                     });
+  ArduinoOTA.onEnd([]()
+                   { Serial.println("\nEnd"); });
+  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total)
+                        { Serial.printf("Progress: %u%%\r", (progress / (total / 100))); });
+  ArduinoOTA.onError([](ota_error_t error)
+                     {
+                       Serial.printf("Error[%u]: ", error);
+                       if (error == OTA_AUTH_ERROR)
+                       {
+                         Serial.println("Auth Failed");
+                       }
+                       else if (error == OTA_BEGIN_ERROR)
+                       {
+                         Serial.println("Begin Failed");
+                       }
+                       else if (error == OTA_CONNECT_ERROR)
+                       {
+                         Serial.println("Connect Failed");
+                       }
+                       else if (error == OTA_RECEIVE_ERROR)
+                       {
+                         Serial.println("Receive Failed");
+                       }
+                       else if (error == OTA_END_ERROR)
+                       {
+                         Serial.println("End Failed");
+                       }
+                     });
   ArduinoOTA.begin();
   Serial.println("Ready");
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
 }
 
-void wifi_refresh() {
-  ArduinoOTA.handle();
+void wifi_refresh()
+{
+  if (wifiMulti.run(connectTimeoutMs) == WL_CONNECTED)
+  {
+    ArduinoOTA.handle();
+  }
+  else
+  {
+    Serial.println("Wifi not connected, OTA disabled");
+    delay(1000);
+  }
 }
 
-void wifi_setup() {
+void wifi_setup()
+{
+  Serial.begin(115200);
+  Serial.println("Booting, connecting to WiFi...");
+  wifiMulti.addAP(STASSID - 1, STAPSK - 1);
+  wifiMulti.addAP(STASSID - 2, STAPSK - 2);
+
+  while (wifiMulti.run() != WL_CONNECTED)
+  {
+    Serial.println("Connection Failed! Rebooting...");
+    delay(5000); // Wait 5 seconds for timeouts
+    ESP.restart();
+  }
+
+  Serial.print("WiFi connected: ");
+  Serial.print(WiFi.SSID());
+  Serial.print(" ");
+  Serial.println(WiFi.localIP());
+
   OTA_setup();
 }
