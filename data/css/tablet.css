@@ -1,0 +1,14 @@
+.header {
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.logo {
+    margin-bottom: 0;
+}
+
+.content p {
+    width: 100%;
+    max-width: 530px;
+    margin: 0 auto;
+}

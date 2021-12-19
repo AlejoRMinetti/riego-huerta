@@ -1,0 +1,116 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid steelblue;
+    align-items: center;
+}
+
+#TempTitle {
+    color: #ff8d0a;
+}
+
+#HumTitle {
+    color: #0ab1ff;
+}
+
+.logo {
+    /*     display: flex;
+    align-items: center; */
+    margin-bottom: 10px;
+}
+
+.logo strong {
+    font-family: 'Oswald', 'Roboto', sans-serif;
+    color: rgb(0, 110, 255);
+}
+
+.flag {
+    background: linear-gradient(#fffb0a, #21d3ff, #027e1d);
+    height: 5rem;
+}
+
+.logo strong {
+    margin-left: 5px;
+    font-size: 5rem;
+}
+
+.menu {
+    font-family: 'Oswald', 'Roboto', sans-serif;
+    color: #0a91ff;
+    display: flex;
+    list-style: none;
+}
+
+.menu li {
+    margin: 0 5px;
+}
+
+.menu li a {
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.content {
+    width: 100%;
+    padding: 20px 10px;
+    border: 1px solid lightskyblue;
+    text-align: center;
+}
+
+.figuraPpal img {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 15px;
+}
+
+.actuadores {
+    padding: 20px 10px;
+    border: 1px solid rgb(255, 252, 47);
+}
+
+.actuadores h2 {
+    margin-bottom: 15px;
+    font-size: 1.8rem;
+}
+
+.actuadores-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.actuadores-images img {
+    width: 100%;
+    max-width: 298px;
+    height: 82px;
+}
+
+.footer {
+    display: flex;
+    height: 50px;
+    padding: 10px;
+    border: 1px solid orange;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer p {
+    font-weight: 700;
+}

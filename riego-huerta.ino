@@ -1,12 +1,12 @@
 // Riego para la huerta de CHAMA
 
 // custom libs del proyecto
-#include "lib/perifericos.h"
-#include "lib/wifiapp.h"
+#include "perifericos.h"
+#include "wifiapp.h"
 
 void setup() {
-  wifi_setup();
   perifericos_setup();
+  wifi_setup();
 }
 
 // the loop function runs over and over again forever
