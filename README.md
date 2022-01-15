@@ -15,16 +15,16 @@ Riego automático para una huerta saludable!
     <li>simple implementacion riego de 10min cada 1 hora. Incia el riego al encender el equipo</li>
     <li>Usando Ticker para evitar funcion bloqueante delay()</li>
     <li>OTA conectado a wifi local</li>
+    <li>Comunicacion con la pagina web: mostrando estado del riego, tiempo restante a proximo estado y control manual del riego mediante boton</li>
 </ul>
 
 ## Por desarrolladar
 <ul>
-    <li>Modo AP con web server captive portal</li>
-    <li>Control manual de encendido de rigeo desde la pagina</li>
     <li>Guardar registros en .csv en file system interno SPIFFs y visualizar en su pagina</li>
     <li><a href="https://randomnerdtutorials.com/wifimanager-with-esp8266-autoconnect-custom-parameter-and-manage-your-ssid-and-password/">Wifi config</a></li>
     <li>Usar el RTC interno para generar eventos de encendido apagado</li>
     <li>Descarga de datos. Tomar ejemplo ESP32-8266-File-Download</li>
+    <li>Modo AP con web server captive portal</li>
     <a href="https://stackoverflow.com/questions/10659523/how-to-get-the-exact-local-time-of-client">Actualizar tiempo desde los clientes que se conectan</a>   </li>
 </ul>
 </li>

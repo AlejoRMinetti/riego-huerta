@@ -36,11 +36,11 @@ body {
 
 .logo strong {
     font-family: 'Oswald', 'Roboto', sans-serif;
-    color: rgb(0, 110, 255);
+    color: #1a0aff;
 }
 
 .flag {
-    background: linear-gradient(#fffb0a, #21d3ff, #027e1d);
+    background: linear-gradient(#1a0aff, #21d3ff, #6ff08b);
     height: 5rem;
 }
 
@@ -100,6 +100,26 @@ body {
     width: 100%;
     max-width: 298px;
     height: 82px;
+}
+
+.button-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 12px;
+    background-color: #008CBA;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    padding: 16px 40px;
+    text-decoration: none;
+    font-size: 30px;
+    margin: 2px;
+    cursor: pointer;
 }
 
 .footer {

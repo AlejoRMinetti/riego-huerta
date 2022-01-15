@@ -5,36 +5,64 @@
 #define RELAY_PIN D1
 #define HORA_EN_SEGUNDOS 3600
 
-Ticker tickerON, tickerOFF;
+Ticker ticker_cada_seg;
 
 // 10 min encendido
-float riego_segs = HORA_EN_SEGUNDOS / 6;
+float riego_segs = 5;
 // cada 1 hora
-float espera_segs = HORA_EN_SEGUNDOS;
+float espera_segs = 10;
 
-void turn_off()
+// remain time for next riego state
+float remain_riego_segs = riego_segs;
+
+// Riego state
+bool riego_state = false;
+
+void turn_off_riego()
 {
+    riego_state = false;
+    remain_riego_segs = espera_segs;
     // turn off the RELAY
     digitalWrite(RELAY_PIN, LOW);   // turn the RELAY off (LOW is the voltage level)
     digitalWrite(LED_BUILTIN, LOW); // Turn the LED on by making the voltage LOW (active low on the ESP-01)
-    tickerON.detach();
+
 }
 
-void turn_on()
+void turn_on_riego()
 {
+    riego_state = true;
+    remain_riego_segs = riego_segs;
     // turn on the RELAY
     digitalWrite(RELAY_PIN, HIGH);   // turn the RELAY on (HIGH is the voltage level)
     digitalWrite(LED_BUILTIN, HIGH); // Turn the LED off (Note that HIGH is the voltage level: active low)
-    // timer to turn off the RELAY
-    tickerON.attach(riego_segs, turn_off);
 }
+
+// return remain time for next riego state en minutos
+float get_remain_riego_segs()
+{
+    return remain_riego_segs;
+}
+
 
 void timers_setup()
 {
-    // timer to turn off the RELAY
-    tickerON.attach(riego_segs, turn_off);
-    // set timer to turn on the relay
-    tickerOFF.attach(espera_segs, turn_on);
+    // timer to save remain time for next riego state
+    ticker_cada_seg.attach(1, []() {
+        remain_riego_segs--;
+        if (remain_riego_segs <= 0)
+        {
+            if (riego_state)
+            {
+                turn_off_riego();
+            }
+            else
+            {
+                turn_on_riego();
+            }
+        }
+        
+    });
+    
 }
 
 void perifericos_setup()

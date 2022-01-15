@@ -8,11 +8,14 @@
 #include <ESP8266WebServer.h>
 #include <FS.h>
 
+// for control over the web server
+// #include "perifericos.h"
+
 // multi ssid for wifi connections
 #include <ESP8266WiFiMulti.h>
 ESP8266WiFiMulti wifiMulti;
 
-#include "lib/credentials.h""
+#include "credentials.h""
 /* "credentials.h" only contains the SSID and password of the WiFi network.
  * It is not included in the repository because it contains sensitive data.
  * If you want to use this code, you need to create your own "credentials.h"
@@ -31,8 +34,8 @@ const uint32_t connectTimeoutMs = 25000;
 
 // wifi Access Point
 const byte DNS_PORT = 53;
-const char *APssid = "Riego Huerta"; // The name of the Wi-Fi network that will be created
-const char *APpassword = "TakeControl";            // The password required to connect to it, leave blank for an open network
+const char *APssid = "Riego Huerta";        // The name of the Wi-Fi network that will be created
+const char *APpassword = "TakeControl";     // The password required to connect to it, leave blank for an open network
 IPAddress apIP(192, 168, 1, 1);
 
 ////////////////////// SERVER //////////////////////
@@ -164,6 +167,53 @@ void server_start()
       webServer.send(200, "text/html", metaRefreshStr);
     }
   });
+  // Manual ON / OFF Riego control
+  webServer.on("/riegoToggle", []() {
+    if(riego_state){
+      turn_off_riego();
+      Serial.println("Riego apagado manualmente");
+      webServer.send(200, "text/json", "{\"riego_state\":\"OFF\"}");
+    }
+    else{
+      turn_on_riego();
+      Serial.println("Riego encendido manualmente");
+      webServer.send(200, "text/json", "{\"riego_state\":\"ON\"}");
+    }
+  });
+  // send time remain riego state
+  webServer.on("/riegoTime", []() {
+    String msg = "Mensaje de riegoTime vacio";
+    int minutos_restantes = int(get_remain_riego_segs()) / 60;
+    int segundos_restantes = int(get_remain_riego_segs()) % 60;
+    if (riego_state)
+    {
+      if (minutos_restantes == 0)
+      {
+        msg = "Regando... tiempo restante: " + String(segundos_restantes) + " segundos"; 
+      }
+      else
+      {
+        msg = "Regando... tiempo restante: " + String(minutos_restantes) + " minutos con "
+                   + String(segundos_restantes) + " segundos";
+      }
+      webServer.send(200, "text/json", "{\"riego_state\":\"ON\",\"riego_time_remain\":\"" + msg + "\"}");
+    }
+    else
+    {
+      if (minutos_restantes == 0)
+      {
+        msg = "Esperando para el proximo riego que comienza en: " + String(segundos_restantes) + " segundos"; 
+      }
+      else
+      {
+        msg = "Esperando para el proximo riego que comienza en: " + String(minutos_restantes) + " minutos con "
+                   + String(segundos_restantes) + " segundos";
+      }
+      webServer.send(200, "text/json", "{\"riego_state\":\"OFF\",\"riego_time_remain\":\"" + msg + "\"}");
+    }   
+      Serial.println(msg);
+  });
+
 
   webServer.begin();
   Serial.println("HTTP server started.");
