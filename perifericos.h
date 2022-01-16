@@ -8,12 +8,12 @@
 Ticker ticker_cada_seg;
 
 // 10 min encendido
-float riego_segs = 5;
-// cada 1 hora
-float espera_segs = 10;
+int riego_segs = HORA_EN_SEGUNDOS / 6;
+// cada 2 hora
+int espera_segs = HORA_EN_SEGUNDOS * 2;
 
 // remain time for next riego state
-float remain_riego_segs = riego_segs;
+int remain_riego_segs = riego_segs;
 
 // Riego state
 bool riego_state = false;
@@ -43,6 +43,42 @@ float get_remain_riego_segs()
     return remain_riego_segs;
 }
 
+// set riego times
+void set_riego_config(int horaEncendido, int minEncendido, int segEncendido,
+                        int horaApagado, int minApagado, int segApagado)
+{
+    riego_segs = (horaEncendido * HORA_EN_SEGUNDOS) + (minEncendido * 60) + segEncendido;
+    espera_segs = (horaApagado * HORA_EN_SEGUNDOS) + (minApagado * 60) + segApagado;
+}
+
+int get_horas_restantes()
+{
+    return remain_riego_segs / HORA_EN_SEGUNDOS;
+}
+
+int get_minutos_restantes()
+{
+    return (int(remain_riego_segs) % HORA_EN_SEGUNDOS) / 60;
+}
+
+int get_segundos_restantes()
+{
+    return (int(remain_riego_segs) % HORA_EN_SEGUNDOS) % 60;
+}
+
+// get riego times
+String riego_config_str()
+{
+    String riego_config = "Encendido: ";
+    riego_config += String(riego_segs / HORA_EN_SEGUNDOS) + ":";
+    riego_config += String((int(riego_segs) % HORA_EN_SEGUNDOS) / 60) + ":";
+    riego_config += String((int(riego_segs) % HORA_EN_SEGUNDOS) % 60);
+    riego_config += " Apagado: ";
+    riego_config += String(espera_segs / HORA_EN_SEGUNDOS) + ":";
+    riego_config += String((int(espera_segs) % HORA_EN_SEGUNDOS) / 60) + ":";
+    riego_config += String((int(espera_segs) % HORA_EN_SEGUNDOS) % 60);
+    return riego_config;
+}
 
 void timers_setup()
 {
@@ -70,7 +106,6 @@ void perifericos_setup()
     pinMode(LED_BUILTIN, OUTPUT); // Initialize the LED_BUILTIN pin as an output
     pinMode(RELAY_PIN, OUTPUT);   // Initialize the RELAY_PIN pin as an output
     // RELAY starts on
-    digitalWrite(RELAY_PIN, HIGH);   // turn the RELAY on (HIGH is the voltage level)
-    digitalWrite(LED_BUILTIN, HIGH); // Turn the LED off (Note that HIGH is the voltage level: active low)
+    turn_on_riego();
     timers_setup();
 }

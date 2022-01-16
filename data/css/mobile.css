@@ -88,39 +88,130 @@ body {
     font-size: 1.8rem;
 }
 
-.actuadores-images {
+.card-actuador {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
     gap: 10px;
     justify-content: center;
     margin: 0 auto;
+    background-color: rgb(198, 194, 255);
+    border-radius: 12px;
 }
 
-.actuadores-images img {
+.card-header {
+    align-self: center;
+    justify-content: center;
+    padding: 10px;
+    font-family: "Lucida Console", monospace;
+    text-align: center;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+}
+
+.actuadores-images{
+    /* align center */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.actuadores-images #regadera {
     width: 100%;
-    max-width: 298px;
-    height: 82px;
+    max-width: 250px;
+    height: 120px;
+}
+
+.config-item-content-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.config-item-content-item label{
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.config-item-content-item input{
+    width: 100%;
+    height: 30px;
+    border-radius: 8px;
+    border: 1px solid #0a91ff;
+    padding: 2px 8px;
+    font-size: 2rem;
+    font-weight: 700;
+    /* center text */
+    text-align: center;
 }
 
 .button-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 500px;
-    border-radius: 12px;
+    /* center */
+    margin-top: 10px;
+    padding: 10px;
     background-color: #008CBA;
-    border: none;
     border-radius: 12px;
     color: white;
     padding: 16px 40px;
-    text-decoration: none;
     font-size: 30px;
-    margin: 2px;
-    cursor: pointer;
+    margin: 8px;
 }
+
+.card-config {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: rgb(183, 184, 189);
+    border: 2px solid rgb(142, 135, 156);
+}
+
+.button-save {
+    /* center */
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #029727;
+    border-radius: 12px;
+    color: white;
+    padding: 16px 40px;
+    font-size: 30px;
+    margin: 8px;
+}
+
+.config-encendido {
+    /* center */
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #014d01;
+    border-radius: 12px;
+    color: white;
+    padding: 16px 40px;
+    font-size: 20px;
+    margin: 8px;
+}
+
+.config-apagado {
+    /* center */
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #5e0101;
+    border-radius: 12px;
+    color: white;
+    padding: 16px 40px;
+    font-size: 20px;
+    margin: 8px;
+}
+
 
 .footer {
     display: flex;

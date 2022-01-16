@@ -8,8 +8,8 @@
 #include <ESP8266WebServer.h>
 #include <FS.h>
 
-// for control over the web server
-// #include "perifericos.h"
+// library for StaticJsonBuffer
+#include <ArduinoJson.h>
 
 // multi ssid for wifi connections
 #include <ESP8266WiFiMulti.h>
@@ -94,6 +94,18 @@ String getContentType(String filename)
   return "text/plain";
 }
 
+String tiempoRestante(){
+    String msg = "";
+    if (get_minutos_restantes() == 0 && get_horas_restantes() == 0)      {
+      msg = String(get_segundos_restantes()) + " segundos"; 
+    }      else if (get_horas_restantes() == 0)      {
+      msg = String(get_minutos_restantes()) + " minutos y " + String(get_segundos_restantes()) + " segundos";
+    }      else      {
+      msg = String(get_horas_restantes()) + " horas, " + String(get_minutos_restantes()) + " minutos y " + String(get_segundos_restantes()) + " segundos";
+    }
+    return msg;
+}
+
 /*__________________________________________________________SERVER_HANDLERS__________________________________________________________*/
 
 // HTML GET
@@ -158,7 +170,6 @@ void APMode_Start()
 
 void server_start()
 {
-  
   //redirect all traffic to index.html
   webServer.onNotFound([]() {
     if (!handleFileRead(webServer.uri()))
@@ -167,7 +178,7 @@ void server_start()
       webServer.send(200, "text/html", metaRefreshStr);
     }
   });
-  // Manual ON / OFF Riego control
+  // Manual ON / OFF riego control
   webServer.on("/riegoToggle", []() {
     if(riego_state){
       turn_off_riego();
@@ -183,35 +194,51 @@ void server_start()
   // send time remain riego state
   webServer.on("/riegoTime", []() {
     String msg = "Mensaje de riegoTime vacio";
-    int minutos_restantes = int(get_remain_riego_segs()) / 60;
-    int segundos_restantes = int(get_remain_riego_segs()) % 60;
     if (riego_state)
     {
-      if (minutos_restantes == 0)
-      {
-        msg = "Regando... tiempo restante: " + String(segundos_restantes) + " segundos"; 
-      }
-      else
-      {
-        msg = "Regando... tiempo restante: " + String(minutos_restantes) + " minutos con "
-                   + String(segundos_restantes) + " segundos";
-      }
+      msg = String("Regando... tiempo restante: " + tiempoRestante());
       webServer.send(200, "text/json", "{\"riego_state\":\"ON\",\"riego_time_remain\":\"" + msg + "\"}");
     }
     else
     {
-      if (minutos_restantes == 0)
-      {
-        msg = "Esperando para el proximo riego que comienza en: " + String(segundos_restantes) + " segundos"; 
-      }
-      else
-      {
-        msg = "Esperando para el proximo riego que comienza en: " + String(minutos_restantes) + " minutos con "
-                   + String(segundos_restantes) + " segundos";
-      }
+      msg = "Esperando para el proximo riego que comienza en: " + tiempoRestante();
       webServer.send(200, "text/json", "{\"riego_state\":\"OFF\",\"riego_time_remain\":\"" + msg + "\"}");
     }   
       Serial.println(msg);
+  });
+
+  // get config times from front-end in JSON format
+  // post from front-end in JSON format
+  // JSON format: "horaEncendido", "minEncendido", "segEncendido",
+  // "horaApagado", "minApagado", "segApagado"
+  webServer.on("/riegoConfig", []() {
+    String msg = "Mensaje de riegoConfig vacio";
+    if (webServer.method() == HTTP_POST)
+    {
+      // receibe JSON from front-end
+      String json = webServer.arg("plain");
+      Serial.println(json);
+      StaticJsonDocument<200> jsonBuffer;
+      deserializeJson(jsonBuffer, json);
+      int horaEncendido = jsonBuffer["horaEncendido"];
+      int minEncendido = jsonBuffer["minEncendido"];
+      int segEncendido = jsonBuffer["segEncendido"];
+      int horaApagado = jsonBuffer["horaApagado"];
+      int minApagado = jsonBuffer["minApagado"];
+      int segApagado = jsonBuffer["segApagado"];
+      
+      set_riego_config(horaEncendido, minEncendido, segEncendido, 
+        horaApagado, minApagado, segApagado);
+      msg = "Configuracion actualizada";
+      Serial.println(msg);
+      webServer.send(200, "text/json", "{\"riego_config\":\"" + msg + "\"}");
+    }
+    else
+    {
+      msg = "Configuracion actual: " + riego_config_str();
+      Serial.println(msg);
+      webServer.send(200, "text/json", "{\"riego_config\":\"" + msg + "\"}");
+    }
   });
 
 
@@ -219,8 +246,6 @@ void server_start()
   Serial.println("HTTP server started.");
 }
 
-
-/////////////////// OTA SETUP ///////////////////
 void OTA_setup()
 {
   // Hostname defaults to esp8266-[ChipID]

@@ -41,16 +41,77 @@
             </figure>
             <p>Humedad de la huerta</p>
         </section> -->
-        <aside class="actuadores">
-            <!-- title with remain time for state -->
-            <h2 id="titleRiego">Riego</h2>
-            <figure class="actuadores-images">
-                <img src="./images/regadera.jpg" alt="Regadera">
-            </figure>
-            <!-- state button -->
-            <div class="state-button">
+        <section class="actuadores">
+            <!-- card actuador with title, image and accion button -->
+            <div class="card-actuador">
+                <div class="card-header">
+                    <h3 id="titleRiego">Actuador</h3>
+                </div>
+                <div class="card-img">
+                    <figure class="actuadores-images" id="regadera">
+                        <img src="./images/regadera.png" alt="Regadera">
+                    </figure>
+                </div>
                 <button id="riegoButton" class="button-state" onclick="toggleRiego()">
-                    <span class="button-text">Regar</span>
+                    <span class="button-text">Apretame!</span>
+                    <span class="btn-actuador-icon">
+                        <i class="fas fa-power-off"></i>
+                    </span>
+                </button>
+            </div>
+        </section>
+        <aside class="actuadores-config" >
+            <!-- configuracion de los tiempos de encedido y apagado -->
+            <div class="card-config">
+                <div class="card-header">
+                    <h3>Configuración</h3>
+                </div>
+                <div class="card-body">
+                    <div class="config-encendido">
+                        <h4>Tiempo encendido</h4>
+                        <!-- horas, minutos y segundos -->
+                        <div class="config-item-content">
+                            <div class="config-item-content-item">
+                                <label for="horaEncendido">Horas:</label>
+                                <input type="number" id="horaEncendido" min="0" max="123" value="0">
+                            </div>
+                            <div class="config-item-content-item">
+                                <label for="minEncendido">Minutos:</label>
+                                <input type="number" id="minEncendido" min="0" max="59" value="0">
+                            </div>
+                            <div class="config-item-content-item">
+                                <label for="segEncendido">Segundos:</label>
+                                <input type="number" id="segEncendido" min="0" max="59" value="0">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="config-apagado">
+                        <h4>Tiempo apagado</h4>
+                        <!-- horas, minutos y segundos -->
+                        <div class="config-item-content">
+                            <div class="config-item-content-item">
+                                <label for="horaApagado">Horas:</label>
+                                <input type="number" id="horaApagado" min="0" max="123" value="0">
+                            </div>
+                            <div class="config-item-content-item">
+                                <label for="minApagado">Minutos:</label>
+                                <input type="number" id="minApagado" min="0" max="59" value="0">
+                            </div>
+                            <div class="config-item-content-item">
+                                <label for="segApagado">Segundos:</label>
+                                <input type="number" id="segApagado" min="0" max="59" value="0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button id="btn-config" class="button-save" onclick="saveConfig()">
+                    <span class="button-text">Guardar</span>
+                    <span class="btn-actuador-icon">
+                        <i class="fas fa-save"></i>
+                    </span>
+                </button>
+                <!-- message from setConfig -->
+                <h5 id="messageSaveConfig"></h5>
         </aside>
     </main>
     <footer class="footer">
