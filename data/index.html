@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="SustratoDataLogger con Layout Shifter">
+    <meta name="description" content="Riego huerta con Layout Shifter">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riego Huerta</title>
@@ -32,15 +33,6 @@
         </nav>
     </header>
     <main class="main">
-<!--         <section class="sensores-section">
-            <h2 id="HumTitle">Humedad</h2>
-            <h4 id="HumVal">Humedad en porcentaje %</h4>
-            <h6 id="lastUpdate">Hora actualizacion</h6>
-            <figure class="figuraPpal">
-                <img src="./images/TempHumLogo.webp" alt="Logo Temperatura y Huemdad">
-            </figure>
-            <p>Humedad de la huerta</p>
-        </section> -->
         <section class="actuadores">
             <!-- card actuador with title, image and accion button -->
             <div class="card-actuador">
@@ -60,58 +52,13 @@
                 </button>
             </div>
         </section>
-        <aside class="actuadores-config" >
-            <!-- configuracion de los tiempos de encedido y apagado -->
-            <div class="card-config">
-                <div class="card-header">
-                    <h3>Configuración</h3>
-                </div>
-                <div class="card-body">
-                    <div class="config-encendido">
-                        <h4>Tiempo encendido</h4>
-                        <!-- horas, minutos y segundos -->
-                        <div class="config-item-content">
-                            <div class="config-item-content-item">
-                                <label for="horaEncendido">Horas:</label>
-                                <input type="number" id="horaEncendido" min="0" max="123" value="0">
-                            </div>
-                            <div class="config-item-content-item">
-                                <label for="minEncendido">Minutos:</label>
-                                <input type="number" id="minEncendido" min="0" max="59" value="0">
-                            </div>
-                            <div class="config-item-content-item">
-                                <label for="segEncendido">Segundos:</label>
-                                <input type="number" id="segEncendido" min="0" max="59" value="0">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="config-apagado">
-                        <h4>Tiempo apagado</h4>
-                        <!-- horas, minutos y segundos -->
-                        <div class="config-item-content">
-                            <div class="config-item-content-item">
-                                <label for="horaApagado">Horas:</label>
-                                <input type="number" id="horaApagado" min="0" max="123" value="0">
-                            </div>
-                            <div class="config-item-content-item">
-                                <label for="minApagado">Minutos:</label>
-                                <input type="number" id="minApagado" min="0" max="59" value="0">
-                            </div>
-                            <div class="config-item-content-item">
-                                <label for="segApagado">Segundos:</label>
-                                <input type="number" id="segApagado" min="0" max="59" value="0">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button id="btn-config" class="button-save" onclick="saveConfig()">
-                    <span class="button-text">Guardar</span>
-                    <span class="btn-actuador-icon">
-                        <i class="fas fa-save"></i>
-                    </span>
-                </button>
-                <!-- message from setConfig -->
-                <h5 id="messageSaveConfig"></h5>
+        <aside class="slicer-control">
+            <h2>Configuracion de actuadores (usando sensor humedad)</h2>
+            <figure class="slicer">
+                <img class="img-slicer" src="./images/TempHumLogo.png" alt="humedad">
+                <input type="range" name="setHumedad" id="setHumedad">
+                <span>Set point humedad</span>
+            </figure>
         </aside>
     </main>
     <footer class="footer">

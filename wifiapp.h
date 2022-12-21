@@ -15,7 +15,7 @@
 #include <ESP8266WiFiMulti.h>
 ESP8266WiFiMulti wifiMulti;
 
-#include "credentials.h""
+#include "credentials.h"
 /* "credentials.h" only contains the SSID and password of the WiFi network.
  * It is not included in the repository because it contains sensitive data.
  * If you want to use this code, you need to create your own "credentials.h"

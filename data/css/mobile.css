@@ -49,6 +49,8 @@ body {
     font-size: 5rem;
 }
 
+/* ----------------- MENU ---------------------- */
+
 .menu {
     font-family: 'Oswald', 'Roboto', sans-serif;
     color: #0a91ff;
@@ -78,14 +80,16 @@ body {
     margin: 0 auto 15px;
 }
 
+ /* -------------------- Actuadores --------------- */
+
 .actuadores {
     padding: 20px 10px;
     border: 1px solid rgb(255, 252, 47);
 }
 
-.actuadores h2 {
+.actuadores h3 {
     margin-bottom: 15px;
-    font-size: 1.8rem;
+    font-size: 2.5rem;
 }
 
 .card-actuador {
@@ -160,7 +164,6 @@ body {
     background-color: #008CBA;
     border-radius: 12px;
     color: white;
-    padding: 16px 40px;
     font-size: 30px;
     margin: 8px;
 }
@@ -224,4 +227,96 @@ body {
 
 .footer p {
     font-weight: 700;
+}
+
+/* button styles */
+.button-image {
+    width: 80px;
+    height: 80px;
+    /* Position the image next to the text */
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+ 
+/* Add a hover effect for the button */
+#riegoButton:hover {
+/* Use a transform to scale the button up */
+transform: scale(1.1);
+/* Use a transition to smoothly animate the transformation */
+transition: transform 0.5s ease-out;
+}
+
+/* ------------------ SLICER CARD -----------------------*/
+.slicer-control {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    margin: 0 auto;
+    background-color: rgb(14, 0, 102);
+    border-radius: 12px;
+}
+.img-slicer{
+    vertical-align: middle;
+}
+.slicer-control h2, span{
+    font-family: "Lucida Console", monospace;
+    text-align: center;
+    color: #fff;
+    padding: 1rem;
+}
+
+.slicer #setHumedad{
+    /* remove any fixed dimensions or constraints */
+    height: auto;
+    min-height: 50;
+    max-height: none;
+  }
+
+.img-slicer {
+    padding: 1rem;
+    max-width: 150px; /* establece el ancho máximo de la imagen en 100px */
+    max-height: 150px; /* establece el alto máximo de la imagen en 150px */
+  }
+
+/* --------------------WIFI CONFIG styles----------------- */
+.card-config p{
+    font-size: 1.5rem;
+    padding-top: 1rem;
+}
+.card-config label{
+    font-size: 2.5rem;
+    
+}
+form {
+    width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+label {
+    display: block;
+    margin-bottom: 10px;
+    padding-top: 20px;
+}
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+input[type="submit"] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+input[type="submit"]:hover {
+    background-color: #45a049;
 }
